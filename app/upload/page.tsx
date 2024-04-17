@@ -29,7 +29,7 @@ export default function TranscriptionPage() {
     formData.append("file", file);
 
     try {
-      const response = await fetch('http://192.168.1.220:8000/audio', {
+      const response = await fetch('https://548c-2600-1700-7b00-5e10-2d8b-4410-33a9-e3f.ngrok-free.app/audio', {
         method: 'POST',
         body: formData,
       });
