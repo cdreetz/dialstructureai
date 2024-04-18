@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
+import { transcribeFile } from '@/app/upload/action';
 
 export default function TranscriptionPage() {
   const [file, setFile] = useState<File | null>(null);
@@ -29,17 +30,7 @@ export default function TranscriptionPage() {
     formData.append("file", file);
 
     try {
-      const response = await fetch('https://548c-2600-1700-7b00-5e10-2d8b-4410-33a9-e3f.ngrok-free.app/audio', {
-        method: 'POST',
-        body: formData,
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to upload file');
-      }
-
-      const data = await response.json(); // Assuming the response is JSON
-      console.log(data)
+      const data = await transcribeFile(formData);
       if (data.results && data.results.segments && data.results.segments.length > 0) {
         const allTexts = data.results.segments.map((segment: { text: string }) => segment.text).join(' ');
         setTranscription(allTexts);
