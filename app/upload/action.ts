@@ -2,8 +2,7 @@
 
 export async function transcribeFile(formData: FormData): Promise<any> {
   try {
-    const url = process.env.NGROK_API_URL; // Your ngrok URL set in .env.local
-    const response = await fetch(`${url}/audio`, {
+    const response = await fetch(`https://548c-2600-1700-7b00-5e10-2d8b-4410-33a9-e3f.ngrok-free.app/audio`, {
       method: 'POST',
       body: formData, // Forward the incoming request body to the ngrok service
     });
