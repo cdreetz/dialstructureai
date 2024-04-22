@@ -2,7 +2,7 @@
 
 export async function transcribeFile(formData: FormData): Promise<any> {
   try {
-    const response = await fetch(`https://548c-2600-1700-7b00-5e10-2d8b-4410-33a9-e3f.ngrok-free.app/audio`, {
+    const response = await fetch(`https://0628-2600-1700-7b00-5e10-a421-3d2-7c33-bdf.ngrok-free.app/audio`, {
       method: 'POST',
       body: formData, // Forward the incoming request body to the ngrok service
     });
