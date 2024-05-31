@@ -6,7 +6,7 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { transcribeFile } from '@/app/upload/action';
 
-export default function TranscriptionPage() {
+function TranscriptionPage() {
   const [file, setFile] = useState<File | null>(null);
   const [transcription, setTranscription] = useState<string>('');
   const [filename, setFilename] = useState<string>('');
@@ -67,3 +67,8 @@ export default function TranscriptionPage() {
   );
 }
 
+export default function UploadPage() {
+  return (
+    <TranscriptionPage />
+  )
+}
