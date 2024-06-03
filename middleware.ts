@@ -1,27 +1,35 @@
-import { NextRequest, NextResponse } from 'next/server';
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { NextResponse } from 'next/server'
 
-const allowedOrigins = ['http://192.168.1.220', 'http://192.168.1.220:8000']
+import type { NextRequest } from 'next/server'
+import type { Database } from '@/lib/database.types'
 
-const corsOptions = {
-  'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+export const config = {
+  matcher: ['/', '/dashboard/:path*'],
 }
 
+export async function middleware(req: NextRequest) {
+  const res = NextResponse.next()
 
-export function middleware(request: NextRequest) {
-  // check the origin from the request
-  const origin = request.headers.get('origin') ?? ''
-  const isAllowedOrigin = allowedOrigins.includes(origin)
+  // Create a Supabase client configured to use cookies
+  const supabase = createMiddlewareClient<Database>({ req, res })
 
-  const response = NextResponse.next()
+  const { data, error } = await supabase.auth.getSession()
 
-  if (isAllowedOrigin) {
-    response.headers.set('Access-Control-Allow-Origin', origin)
+  // Added console logs for debugging
+  console.log('Session data:', data)
+  if (error) {
+    console.error('Error fetching session:', error)
   }
 
-  Object.entries(corsOptions).forEach(([key, value]) => {
-    response.headers.set(key, value)
-  })
+  // Check if the session object itself is null, not just the data property
+  if (!data?.session || error) {
+    console.log('Redirecting to home page due to null session or error.')
+    return NextResponse.redirect(new URL('/login', req.url))
+  }
 
+  // Log to confirm valid user session
+  console.log('Valid user session, not redirecting.')
 
+  return res
 }

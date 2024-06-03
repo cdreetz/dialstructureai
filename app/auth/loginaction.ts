@@ -1,14 +1,12 @@
 'use server'
 
 import { revalidatePath } from 'next/cache';
-import { cookies } from 'next/headers';
 import { redirect } from 'next/navigation';
 
 import { createClient } from '@/utils/supabase/server';
 
 export async function login(formData: FormData) {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+  const supabase = createClient()
 
   const data = {
     email: formData.get('email') as string,
@@ -21,13 +19,12 @@ export async function login(formData: FormData) {
     return redirect('/error')
   }
 
-  revalidatePath('/login', 'layout')
-  return true
+  revalidatePath('/', 'layout')
+  return ('/')
 }
 
 export async function signup(formData: FormData) {
-  const cookieStore = cookies()
-  const supabase = createClient(cookieStore)
+  const supabase = createClient()
 
   const data = {
     email: formData.get('email') as string,
@@ -40,5 +37,6 @@ export async function signup(formData: FormData) {
     redirect('/error')
   }
 
-  revalidatePath('/signup/signup2', 'layout')
+  revalidatePath('/', 'layout')
+  return true
 }

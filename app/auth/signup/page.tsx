@@ -1,28 +1,29 @@
 // app/signup/page.tsx
 "use client";
-import Image from "next/image"
 import Link from "next/link"
 import React from "react";
 import { signup } from "../loginaction";
 import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent } from "@/components/ui/card";
 
 export default function SignUpPage() {
   const router = useRouter();
+  const methods = useForm();
+  const { register, handleSubmit, formState: { errors } } = methods;
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const form = new FormData(e.target as HTMLFormElement);
 
-    signup(form)
-      .then(() => {
+  const onSubmit = (data: any) => {
+    const formData = new FormData();
+    for (const key in data) {
+      formData.append(key, data[key]);
+    }
+    signup(formData).then(() => {
         console.log("Signup successful");
         router.push("/dashboard");
-      })
-      .catch((error) => {
+      }).catch((error) => {
         console.error("Signup failed", error);
       });
   };
@@ -30,9 +31,9 @@ export default function SignUpPage() {
   return (
     <div className="w-full lg:w-auto mx-4 lg:mx-16 2xl:mx-12 lg:grid lg:min-h-[600px] lg:grid-cols-2 xl:min-h-[800px]">
       <div className="flex items-center justify-center py-12">
-        <div className="mx-auto grid w-full max-w-[540px] gap-14 border-gray-300 shadow-2xl rounded-lg p-20 sm:p-16 items-center">
+        <form onSubmit={handleSubmit(onSubmit)} className="mx-auto grid w-full max-w-[540px] gap-14 border-gray-300 shadow-2xl rounded-lg p-20 sm:p-16 items-center">
           <div className="grid gap-4 text-center">
-            <h1 className="text-3xl font-bold">Create your AI-Center account</h1>
+            <h1 className="text-3xl font-bold">Create your Analytics-Center account</h1>
             <p className="text-balance text-muted-foreground">
               Enter your email below to create to your account
             </p>
@@ -41,19 +42,30 @@ export default function SignUpPage() {
             <div className="grid gap-4">
               <Label htmlFor="email">Email</Label>
               <Input
+                {...register("email", { required: true })}
                 id="email"
+                name="email"
                 type="email"
                 placeholder="m@example.com"
-                required
               />
+              {errors.email && <span>This field is required.</span>}
             </div>
             <div className="grid gap-4">
               <div className="flex items-center">
                 <Label htmlFor="password">Password</Label>
               </div>
-              <Input id="password" type="password" required />
+              <Input
+                {...register("password", { required: true })}
+                id="password"
+                type="password" 
+              />
+              {errors.email && <span>This field is required.</span>}
             </div>
-            <Button type="submit" className="w-full">
+            <Button
+              type="submit"
+              name="signup"
+              className="w-full"
+            >
               Create account
             </Button>
           </div>
@@ -63,7 +75,7 @@ export default function SignUpPage() {
               Login
             </Link>
           </div>
-        </div>
+        </form>
       </div>
       <div className="hidden bg-white lg:block">
         <div className="flex h-full items-center justify-center">
