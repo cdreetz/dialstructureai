@@ -30,3 +30,18 @@ export async function fetchExampleData(): Promise<any> {
     throw new Error('Error fetching example data');
   }
 }
+
+export async function getExampleData(): Promise<any> {
+  try {
+    const response = await fetch(`localhost:8080/toy-data`, {
+      method: 'GET',
+    });
+    if (!response.ok) throw new Error('Failed to fetch example data');
+
+    const data = await response.json();
+    return data;
+  } catch (error) {
+    console.error('Error fetching example data:', error);
+    throw new Error('Error fetching example data');
+  }
+}

@@ -22,32 +22,10 @@ interface Message {
   content: string;
 }
 
-const toydata: TranscriptionData = {
-  summary: "The user contacts the assistant seeking help with resetting their password. The assistant responds positively, offering to send a link to the user's email to facilitate the password reset. The user appreciates this solution, indicating that it would be perfect for them. This brief exchange showcases a straightforward customer support scenario where the assistant efficiently addresses the user's request.",
-  outcome: "Issue resolved with no escalation.",
-  sentiment: "Positive",
-  keywords: ["Email", "Password", "Reset"],
-  transcription: [
-    {"role":"assistant", "content": "Hello, thank you for calling Hrai customer support, how can I help you?"},
-    {"role":"user", "content": "Hi. I can't figure out how to reset my password."},
-    {"role":"assistant", "content": "No problem at all, I can send you a link to your email if you would like?"},
-    {"role":"user", "content": "Oh that would be perfect."},
-    {"role":"assistant", "content": "Could you please confirm the email address associated with your account?"},
-    {"role":"user", "content": "Yes, it’s [email]."},
-    {"role":"assistant", "content": "Thank you, [name]. I’ve sent the password reset link to your email. Please check your inbox and follow the instructions to reset your password."},
-    {"role":"user", "content": "I’ve received the email. Thanks for your help!"},
-    {"role":"assistant", "content": "You're welcome! Is there anything else I can assist you with today?"},
-    {"role":"user", "content": "No, that's all for now. Thanks again."},
-    {"role":"assistant", "content": "It was my pleasure helping you. Have a great day, [name]!"},
-  ]
-
-
-}
-
 export default function Wireframe() {
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [transcriptionData, setTranscriptionData] = useState<TranscriptionData>(toydata);
+  const [transcriptionData, setTranscriptionData] = useState<TranscriptionData | null>(null);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -55,6 +33,11 @@ export default function Wireframe() {
       setFile(files[0]);
     }
   };
+
+  const exampleData = async () => {
+    const data = await fetchExampleData();
+    setTranscriptionData(data);
+  }
 
   const handleUpload = async () => {
     if (!file) {
@@ -79,14 +62,16 @@ export default function Wireframe() {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-wrap p-10">
+    <div className="h-screen w-screen flex flex-wrap p-4">
       <div className="border flex flex-col justify-center items-center h-1/3 w-1/2">
+        Quadrant 1
         <Input type="file" accept="audio/*" onChange={handleFileChange} className="mb-2 w-3/4 md:w-1/2" />
         <Button onClick={handleUpload} disabled={isLoading}>
           {isLoading ? 'Processing...' : 'Upload and Transcribe'}
         </Button>
       </div>
       <div className="border flex flex-col gap-4 justify-center items-center h-1/3 w-1/2">
+        Quadrant 2
         <div className="border p-4 rounded-md w-[60%] flex justify-center">
           <Slider
             defaultValue={[50]}
@@ -98,25 +83,25 @@ export default function Wireframe() {
       </div>
       <div className="border flex justify-center items-center h-2/3 w-1/2 p-1 rounded">
         <ScrollArea className="h-full w-full p-3 rounded-md border overflow-y-auto">
-          <h4 className="mb-4 text-sm font-medium leading-none">Overview</h4>
+          <h4 className="mb-4 text-sm font-medium leading-none">Summary</h4>
           <Separator className="my-2 border-b" />
-          <div className="flex flex-col gap-6 p-1">
+          <div className="flex flex-col gap-10 p-4">
             {transcriptionData && (
               <>
                 <div>
-                  <h5 className="text-md font-bold underline">Summary of Call:</h5>
-                  <p className="text-sm px-1">{transcriptionData.summary}</p>
+                  <h5 className="text-lg font-bold">Summary of Call:</h5>
+                  <p>{transcriptionData.summary}</p>
                 </div>
                 <div>
-                  <h5 className="text-md font-bold underline">Outcome of Call:</h5>
-                  <p className="text-sm px-1">{transcriptionData.outcome}</p>
+                  <h5 className="text-lg font-bold">Outcome of Call:</h5>
+                  <p>{transcriptionData.outcome}</p>
                 </div>
                 <div>
-                  <h5 className="text-md font-bold underline">Resulting Sentiment:</h5>
-                  <p className="text-sm px-1">{transcriptionData.sentiment}</p>
+                  <h5 className="text-lg font-bold">Resulting Sentiment:</h5>
+                  <p>{transcriptionData.sentiment}</p>
                 </div>
                 <div>
-                  <h5 className="text-md font-bold underline">Key Terms:</h5>
+                  <h5 className="text-lg font-bold">Key Terms:</h5>
                   <ul className="list-disc pl-5">
                     {transcriptionData.keywords.map((term, index) => (
                       <li key={index}>{term}</li>
