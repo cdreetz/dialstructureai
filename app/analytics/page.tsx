@@ -79,68 +79,73 @@ export default function Wireframe() {
   };
 
   return (
-    <div className="h-screen w-screen flex flex-wrap p-10">
-      <div className="border flex flex-col justify-center items-center h-1/3 w-1/2">
-        <Input type="file" accept="audio/*" onChange={handleFileChange} className="mb-2 w-3/4 md:w-1/2" />
-        <Button onClick={handleUpload} disabled={isLoading}>
-          {isLoading ? 'Processing...' : 'Upload and Transcribe'}
-        </Button>
-      </div>
-      <div className="border flex flex-col gap-4 justify-center items-center h-1/3 w-1/2">
-        <div className="border p-4 rounded-md w-[60%] flex justify-center">
-          <Slider
-            defaultValue={[50]}
-            max={100}
-            step={1}
-            className="w-full"
-          />
+    <div className="h-screen">
+        <div className="h-full flex flex-wrap p-10 items-center justify-center">
+            <h2>Turn audio, into value.</h2>
         </div>
-      </div>
-      <div className="border flex justify-center items-center h-2/3 w-1/2 p-1 rounded">
-        <ScrollArea className="h-full w-full p-3 rounded-md border overflow-y-auto">
-          <h4 className="mb-4 text-sm font-medium leading-none">Overview</h4>
-          <Separator className="my-2 border-b" />
-          <div className="flex flex-col gap-6 p-1">
-            {transcriptionData && (
-              <>
-                <div>
-                  <h5 className="text-md font-bold underline">Summary of Call:</h5>
-                  <p className="text-sm px-1">{transcriptionData.summary}</p>
-                </div>
-                <div>
-                  <h5 className="text-md font-bold underline">Outcome of Call:</h5>
-                  <p className="text-sm px-1">{transcriptionData.outcome}</p>
-                </div>
-                <div>
-                  <h5 className="text-md font-bold underline">Resulting Sentiment:</h5>
-                  <p className="text-sm px-1">{transcriptionData.sentiment}</p>
-                </div>
-                <div>
-                  <h5 className="text-md font-bold underline">Key Terms:</h5>
-                  <ul className="list-disc pl-5">
-                    {transcriptionData.keywords.map((term, index) => (
-                      <li key={index}>{term}</li>
-                    ))}
-                  </ul>
-                </div>
-              </>
-            )}
+      <div className="h-screen w-screen flex flex-wrap p-10">
+        <div className="border flex flex-col justify-center items-center h-1/3 w-1/2">
+          <Input type="file" accept="audio/*" onChange={handleFileChange} className="mb-2 w-3/4 md:w-1/2" />
+          <Button onClick={handleUpload} disabled={isLoading}>
+            {isLoading ? 'Processing...' : 'Upload and Transcribe'}
+          </Button>
+        </div>
+        <div className="border flex flex-col gap-4 justify-center items-center h-1/3 w-1/2">
+          <div className="border p-4 rounded-md w-[60%] flex justify-center">
+            <Slider
+              defaultValue={[50]}
+              max={100}
+              step={1}
+              className="w-full"
+            />
           </div>
-        </ScrollArea>
-      </div>
-      <div className="border flex justify-center items-center h-2/3 w-1/2 p-1 rounded">
-        <ScrollArea className="h-full w-full p-3 rounded-md border overflow-y-auto">
-          <h4 className="mb-4 text-sm font-medium leading-none">Transcription</h4>
-          <Separator className="my-2 border-b" />
-          <div className="flex gap-2 flex-col">
-            {transcriptionData && transcriptionData.transcription.map((m, index) => (
-              <div key={index} className="text-sm">
-                <div className="font-bold">{m.role}:</div>
-                <div className="m-2">{m.content}</div>
-              </div>
-            ))}
-          </div>
-        </ScrollArea>
+        </div>
+        <div className="border flex justify-center items-center h-2/3 w-1/2 p-1 rounded">
+          <ScrollArea className="h-full w-full p-3 rounded-md border overflow-y-auto">
+            <h4 className="mb-4 text-sm font-medium leading-none">Overview</h4>
+            <Separator className="my-2 border-b" />
+            <div className="flex flex-col gap-6 p-1">
+              {transcriptionData && (
+                <>
+                  <div>
+                    <h5 className="text-md font-bold underline">Summary of Call:</h5>
+                    <p className="text-sm px-1">{transcriptionData.summary}</p>
+                  </div>
+                  <div>
+                    <h5 className="text-md font-bold underline">Outcome of Call:</h5>
+                    <p className="text-sm px-1">{transcriptionData.outcome}</p>
+                  </div>
+                  <div>
+                    <h5 className="text-md font-bold underline">Resulting Sentiment:</h5>
+                    <p className="text-sm px-1">{transcriptionData.sentiment}</p>
+                  </div>
+                  <div>
+                    <h5 className="text-md font-bold underline">Key Terms:</h5>
+                    <ul className="text-sm list-disc pl-5">
+                      {transcriptionData.keywords.map((term, index) => (
+                        <li key={index}>{term}</li>
+                      ))}
+                    </ul>
+                  </div>
+                </>
+              )}
+            </div>
+          </ScrollArea>
+        </div>
+        <div className="border flex justify-center items-center h-2/3 w-1/2 p-1 rounded">
+          <ScrollArea className="h-full w-full p-3 rounded-md border overflow-y-auto">
+            <h4 className="mb-4 text-sm font-medium leading-none">Transcription</h4>
+            <Separator className="my-2 border-b" />
+            <div className="flex gap-2 flex-col">
+              {transcriptionData && transcriptionData.transcription.map((m, index) => (
+                <div key={index} className="text-sm">
+                  <div className="font-bold">{m.role}:</div>
+                  <div className="m-2">{m.content}</div>
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+        </div>
       </div>
     </div>
   )
