@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { transcribeFile, fetchExampleData } from '@/app/analytics/action';
+import { transcribeFile, fetchExampleData, processAudio } from '@/app/analytics/action';
 
 interface TranscriptionData {
   summary: string;
@@ -62,21 +62,40 @@ export default function Wireframe() {
       return;
     }
 
+    setIsLoading(true);
+
     const formData = new FormData();
     formData.append("file", file);
+    formData.append('align', 'false');
+    formData.append('diarize', 'true');
+    formData.append('chat_transcription', 'true');
+    formData.append('summarize', 'true');
+    formData.append('analyze_sentiment', 'true');
+    formData.append('extract_keywords', 'true');
+    
 
     try {
-      const data = await fetchExampleData();
-      if (data.results && data.results.segments && data.results.segments.length > 0) {
-        const allTexts = data.results.segments.map((segment: { text: string }) => segment.text).join(' ');
-        setTranscriptionData(allTexts);
+      const response = await processAudio(formData)
+      console.log(response);
+
+      const mappedData: TranscriptionData = {
+        summary: response.summary,
+        outcome: "",
+        sentiment: response.sentiment,
+        keywords: response.keywords,
+        transcription: response.chat_transcription.map((itme: any) => ({
+          role: itme.role,
+          content: itme.content
+        }))
+      };
+
+        setTranscriptionData(mappedData);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setIsLoading(false);
       }
-    } catch (error) {
-      console.error('Error uploading file:', error);
-      alert('Error uploading file');
-      setIsLoading(false);
     }
-  };
 
   return (
     <div className="h-screen">
