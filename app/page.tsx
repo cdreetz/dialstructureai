@@ -99,7 +99,7 @@ export default function Wireframe() {
 
   return (
     <div className="h-screen">
-        <div className="h-full flex flex-wrap p-10 items-center justify-center">
+        <div className="h-3/4 flex flex-wrap p-10 items-center justify-center">
             <h2>Understand your calls.</h2>
         </div>
       <div className="h-screen w-screen flex flex-wrap p-2 md:p-10">
@@ -166,6 +166,9 @@ export default function Wireframe() {
           </ScrollArea>
         </div>
       </div>
+        <div className="h-3/4 flex flex-wrap p-10 items-center justify-center">
+            <h2><a href="/auth/signup" className="underline">Signup</a> for early API access.</h2>
+        </div>
     </div>
   )
 }

@@ -25,7 +25,7 @@ export async function middleware(req: NextRequest) {
   // Check if the session object itself is null, not just the data property
   if (!data?.session || error) {
     console.log('Redirecting to home page due to null session or error.')
-    return NextResponse.redirect(new URL('/login', req.url))
+    return NextResponse.redirect(new URL('/auth/login', req.url))
   }
 
   // Log to confirm valid user session

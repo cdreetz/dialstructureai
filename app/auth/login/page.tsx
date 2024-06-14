@@ -23,7 +23,7 @@ export default function LoginPage() {
       formData.append(key, data[key]);
     }
     login(formData).then(() => {
-      router.push('/dashboard');
+      router.push('/');
       console.log('Login successful');
     }).catch((error) => {
       console.error('Login failed', error);
@@ -34,7 +34,9 @@ export default function LoginPage() {
       <div className="flex items-center justify-center py-12">
         <div className="mx-auto grid w-full max-w-[540px] gap-14 border-gray-300 shadow-2xl rounded-lg p-20 sm:p-16 items-center">
           <div className="grid gap-4 text-center">
-            <h1 className="text-3xl font-bold">Login to your AI-Center account</h1>
+            <h1 className="text-3xl font-bold" suppressHydrationWarning={true}>
+              Login to your AI-Center account
+            </h1>
             <p className="text-balance text-muted-foreground">
               Enter your email and password to login 
             </p>
