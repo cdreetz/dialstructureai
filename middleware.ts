@@ -5,7 +5,7 @@ import type { NextRequest } from 'next/server'
 import type { Database } from '@/lib/database.types'
 
 export const config = {
-  matcher: ['/', '/dashboard/:path*'],
+  matcher: ['/dashboard/:path*'],
 }
 
 export async function middleware(req: NextRequest) {

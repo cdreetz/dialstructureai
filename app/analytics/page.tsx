@@ -102,7 +102,7 @@ export default function Wireframe() {
         <div className="h-full flex flex-wrap p-10 items-center justify-center">
             <h2>Turn audio, into value.</h2>
         </div>
-      <div className="h-screen w-screen flex flex-wrap p-10">
+      <div className="h-screen w-screen flex flex-wrap p-2 md:p-10">
         <div className="border flex flex-col justify-center items-center h-1/3 w-1/2">
           <Input type="file" accept="audio/*" onChange={handleFileChange} className="mb-2 w-3/4 md:w-1/2" />
           <Button onClick={handleUpload} disabled={isLoading}>

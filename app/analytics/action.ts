@@ -15,10 +15,10 @@ export async function transcribeFile(formData: FormData): Promise<any> {
     throw new Error('Error transcribing file');
   }
 }
-
+//https://7a91-2600-1700-7b00-5e10-a128-b54f-abd9-33aa.ngrok-free.app
 export async function processAudio(formData: FormData): Promise<any> {
   try {
-    const response = await fetch(`http://127.0.0.1:8005/process-audio/`, {
+    const response = await fetch(`http://127.0.0.1:8010/process-audio/`, {
       method: 'POST',
       body: formData, // Forward the incoming FormData which includes the file and options
     });
