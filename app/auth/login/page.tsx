@@ -23,7 +23,7 @@ export default function LoginPage() {
       formData.append(key, data[key]);
     }
     login(formData).then(() => {
-      router.push('/');
+      router.push('/dashboard');
       console.log('Login successful');
     }).catch((error) => {
       console.error('Login failed', error);

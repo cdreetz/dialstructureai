@@ -5,18 +5,7 @@ import Link from "next/link";
 import { redirect } from "next/navigation";
 import { useRouter, usePathname } from "next/navigation";
 import { createClient } from "@/utils/supabase/client"
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuIndicator,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  NavigationMenuViewport,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
-//import AuthButton from '@/components/authButton'
+
 
 export default function Navigation() {
   const supabase = createClient();
@@ -60,8 +49,15 @@ export default function Navigation() {
       <div className="flex-initial text-xs">
         <a href="/">Home</a>
       </div>
-      <div className="flex-initial text-xs">
-        <a href={userStatus === "Login" ? "/auth/login" : "/"} onClick={handleLogout}>{userStatus === "Login" ? "Login" : "Logout"}</a>
+      <div className="flex flex-row gap-4">
+        {userStatus === "Logout" && (
+          <div className="flex-initial text-xs">
+            <a href="/dashboard">Dashboard</a>
+          </div>
+        )}
+        <div className="flex-initial text-xs">
+          <a href={userStatus === "Login" ? "/auth/login" : "/"} onClick={handleLogout}>{userStatus === "Login" ? "Login" : "Logout"}</a>
+        </div>
       </div>
     </div>
   )
