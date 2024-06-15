@@ -92,7 +92,8 @@ export default function SignUpPage() {
                   <div>
                     <h3 className="font-medium">Get started quickly</h3>
                     <p className="text-muted-foreground">
-                      Post your first job and it is immediately ready for applicants.
+                      Upload files through the UI and immediately
+                      get insights.
                     </p>
                   </div>
                 </div>
@@ -101,10 +102,11 @@ export default function SignUpPage() {
                     - 
                   </div>
                   <div>
-                    <h3 className="font-medium">Simple integrations</h3>
+                    <h3 className="font-medium">API Access</h3>
                     <p className="text-muted-foreground">
-                      Manage and track applicants in your Hrai dashboard, or integrate our AI 
-                      screening service while continueing with your ATS of choice.
+                      Turn your database of audio files into 
+                      valuable, labeled, and structured data 
+                      for analytics and drive decision making.
                     </p>
                   </div>
                 </div>
@@ -113,10 +115,11 @@ export default function SignUpPage() {
                     -
                   </div>
                   <div>
-                    <h3 className="font-medium">Direct support</h3>
+                    <h3 className="font-medium">Open Source</h3>
                     <p className="text-muted-foreground">
-                      Our team is open to assisting with helping tailor our platform 
-                      if you require custom solutions.
+                      Everything from the web app frontend
+                      and backend, to the ML inference service,  
+                      will be open and licensed for use.
                     </p>
                   </div>
                 </div>
