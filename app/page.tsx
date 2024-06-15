@@ -100,7 +100,10 @@ export default function Wireframe() {
   return (
     <div className="h-screen">
         <div className="h-3/4 flex flex-wrap p-10 items-center justify-center">
-            <h2>Understand your calls.</h2>
+            <h2 className="flex flex-col justify-center items-center">
+              <span>Analyze your calls,</span>
+              <span>from every angle.</span>
+            </h2>
         </div>
       <div className="h-screen w-screen flex flex-wrap p-2 md:p-10">
         <div className="border flex flex-col justify-center items-center h-1/3 w-1/2">

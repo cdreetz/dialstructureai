@@ -35,7 +35,7 @@ export default function LoginPage() {
         <div className="mx-auto grid w-full max-w-[540px] gap-14 border-gray-300 shadow-2xl rounded-lg p-20 sm:p-16 items-center">
           <div className="grid gap-4 text-center">
             <h1 className="text-3xl font-bold" suppressHydrationWarning={true}>
-              Login to your AI-Center account
+              Login to your Analytics-Center account
             </h1>
             <p className="text-balance text-muted-foreground">
               Enter your email and password to login 
@@ -78,7 +78,7 @@ export default function LoginPage() {
             </form>
           </Form>
           <div className="mt-6 text-center text-sm">
-            Already have an account?{" "}
+            No account?{" "}
             <Link href="/auth/signup" className="underline">
               Signup
             </Link>
