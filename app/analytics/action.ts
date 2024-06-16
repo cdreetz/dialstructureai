@@ -1,30 +1,47 @@
 'use server'
 
-export async function transcribeFile(formData: FormData): Promise<any> {
+export async function checkEndpoint() {
   try {
-    const response = await fetch(`https://d687-2600-1700-7b00-5e10-8ee4-68a0-27ea-4836.ngrok-free.app/audio`, {
-      method: 'POST',
-      body: formData, // Forward the incoming request body to the ngrok service
+    const response = await fetch(`https://2699-2600-1700-7b00-5e10-f950-cd01-6b55-6042.ngrok-free.app/health-check/`, {
+      method: 'GET'
     });
-    if (!response.ok) throw new Error('Failed to transcribe');
-
-    const data = await response.json();
-    return data;
+    console.log('Check endpoint GET response:', response)
   } catch (error) {
-    console.error('Transcription error:', error);
-    throw new Error('Error transcribing file');
+    console.error('GET endpoint no response');
+    throw new Error('Error checking endpoint');
   }
 }
-//https://7a91-2600-1700-7b00-5e10-a128-b54f-abd9-33aa.ngrok-free.app
-export async function processAudio(formData: FormData): Promise<any> {
+
+export async function processAudio(formData: FormData, options: {
+  align: boolean,
+  diarize: boolean,
+  chat_transcription: boolean,
+  summarize: boolean,
+  analyze_sentiment: boolean,
+  extract_keywords: boolean
+}): Promise<any> {
+  console.log('Form data in action:', formData)
+  formData.append("align", "true");
+  formData.append("diarize", "true");
+  formData.append("chat_transcription", "true");
+  formData.append("summarize", "true");
+  formData.append("analyze_sentiment", "true");
+  formData.append("extract_keywords", "true");
+  console.log('Form data in action after appending:', formData)
   try {
-    const response = await fetch(`http://127.0.0.1:8010/process-audio/`, {
+    const response = await fetch(`https://2699-2600-1700-7b00-5e10-f950-cd01-6b55-6042.ngrok-free.app/process-audio/`, {
       method: 'POST',
       body: formData, // Forward the incoming FormData which includes the file and options
+      
     });
-    if (!response.ok) throw new Error('Failed to process audio');
+    console.log('Action response:', response)
+
+    if (!response.ok) {
+      throw new Error('Failed to process audio');
+    }
 
     const data = await response.json();
+    console.log('JSON data after parsing:', data)
     return data;
   } catch (error) {
     console.error('Audio processing error:', error);
@@ -32,32 +49,6 @@ export async function processAudio(formData: FormData): Promise<any> {
   }
 }
 
-export async function fetchExampleData(): Promise<any> {
-  try {
-    const response = await fetch(`https://bafa-2600-1700-7b00-5e10-ccf3-92e3-f6c7-a049.ngrok-free.app/example-data`, {
-      method: 'GET',
-    });
-    if (!response.ok) throw new Error('Failed to fetch example data');
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching example data:', error);
-    throw new Error('Error fetching example data');
-  }
-}
 
-export async function getExampleData(): Promise<any> {
-  try {
-    const response = await fetch(`localhost:8080/toy-data`, {
-      method: 'GET',
-    });
-    if (!response.ok) throw new Error('Failed to fetch example data');
 
-    const data = await response.json();
-    return data;
-  } catch (error) {
-    console.error('Error fetching example data:', error);
-    throw new Error('Error fetching example data');
-  }
-}

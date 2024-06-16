@@ -7,7 +7,8 @@ import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { transcribeFile, fetchExampleData, processAudio } from '@/app/analytics/action';
+import { createClient } from "@/utils/supabase/client";
+import { checkEndpoint, processAudio } from '@/app/analytics/action';
 
 interface TranscriptionData {
   summary: string;
@@ -17,12 +18,24 @@ interface TranscriptionData {
   transcription: Message[];
 }
 
+interface FileData {
+  fileName: string;
+  fileLength: number;
+  transcriptionTime: number;
+}
+
 interface Message {
   role: string;
   content: string;
 }
 
-const toydata: TranscriptionData = {
+const toyFileData: FileData = {
+  fileName: "CustomerServiceCall002",
+  fileLength: 120,
+  transcriptionTime: 10
+}
+
+const toyTranscriptData: TranscriptionData = {
   summary: "The user contacts the assistant seeking help with resetting their password. The assistant responds positively, offering to send a link to the user's email to facilitate the password reset. The user appreciates this solution, indicating that it would be perfect for them. This brief exchange showcases a straightforward customer support scenario where the assistant efficiently addresses the user's request.",
   outcome: "Issue resolved with no escalation.",
   sentiment: "Positive",
@@ -45,9 +58,11 @@ const toydata: TranscriptionData = {
 }
 
 export default function Wireframe() {
+  const supabase = createClient();
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [transcriptionData, setTranscriptionData] = useState<TranscriptionData>(toydata);
+  const [transcriptionData, setTranscriptionData] = useState<TranscriptionData>(toyTranscriptData);
+  const [fileData, setFileData] = useState<FileData>(toyFileData);
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const files = event.target.files;
@@ -57,39 +72,55 @@ export default function Wireframe() {
   };
 
   const handleUpload = async () => {
+    //const { data: { user } } = await supabase.auth.getUser();
+    //if (!user) {
+    //  alert('Please sign up to upload files.');
+    //  return; // Ensure function exits if there's no user
+    //}
     if (!file) {
       alert('Please select a file first!');
-      return;
+      return; // Ensure function exits if no file is selected
     }
 
-    setIsLoading(true);
+    //setIsLoading(true);
 
     const formData = new FormData();
     formData.append("file", file);
-    formData.append('align', 'false');
-    formData.append('diarize', 'true');
-    formData.append('chat_transcription', 'true');
-    formData.append('summarize', 'true');
-    formData.append('analyze_sentiment', 'true');
-    formData.append('extract_keywords', 'true');
+    //formData.append('align', 'false');
+    //formData.append('diarize', 'true');
+    //formData.append('chat_transcription', 'true');
+    //formData.append('summarize', 'true');
+    //formData.append('analyze_sentiment', 'true');
+    //formData.append('extract_keywords', 'true');
+    console.log('Form data in page:', formData)
     
 
+    // const status = await checkEndpoint();
+    // console.log("Endpoint status:", status)
+
     try {
-      const response = await processAudio(formData)
-      console.log(response);
+      const response = await processAudio(formData);
+      console.log('Parsed response data in component',response);
+
+      const fileData: FileData = {
+        fileName: response.filename,
+        fileLength: Math.round(response.audio_length_seconds / 60), // Convert seconds to minutes
+        transcriptionTime: response.transcription_time_seconds
+      };
+      console.log('Parsed file data:', fileData)
+      setFileData(fileData)
 
       const mappedData: TranscriptionData = {
-        summary: response.summary,
+        summary: response.summary || "No summary available.",
         outcome: "",
-        sentiment: response.sentiment,
-        keywords: response.keywords,
-        transcription: response.chat_transcription.map((itme: any) => ({
-          role: itme.role,
-          content: itme.content
-        }))
+        sentiment: response.sentiment || "No sentiment data.",
+        keywords: response.keywords || [],
+        transcription: response.chat_transcription ? response.chat_transcription.map((item: any) => ({
+          role: item.role || "Unknown role",
+          content: item.content || "No content"
+        })) : []
       };
-
-        setTranscriptionData(mappedData);
+      setTranscriptionData(mappedData);
       } catch (error) {
         console.error(error);
       } finally {
@@ -113,14 +144,17 @@ export default function Wireframe() {
           </Button>
         </div>
         <div className="border flex flex-col gap-4 justify-center items-center h-1/3 w-1/2">
-          <div className="border p-4 rounded-md w-[60%] flex justify-center">
-            <Slider
-              defaultValue={[50]}
-              max={100}
-              step={1}
-              className="w-full"
-            />
-          </div>
+          <ScrollArea className="h-full w-full p-3 rounded-md border overflow-y-auto">
+            <h4 className="mb-4 text-sm font-medium leading-none">File Details</h4>
+            <Separator className="my-2 border-b" />
+            <div>
+              <ul className="text-sm list-disc pl-5">
+                <li>File Name: {fileData.fileName}</li>
+                <li>File Length: {fileData.fileLength} seconds</li>
+                <li>Time to process: {fileData.transcriptionTime} seconds</li>
+              </ul>
+            </div>
+          </ScrollArea>
         </div>
         <div className="border flex justify-center items-center h-2/3 w-1/2 p-1 rounded">
           <ScrollArea className="h-full w-full p-3 rounded-md border overflow-y-auto">
