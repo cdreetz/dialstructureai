@@ -30,6 +30,6 @@ To learn more about DialStructureAI, take a look at the following resources:
 
 - [Dial Structure Platform](https://www.dialstructureai.com/) - get an idea of what to expect, demo, and sign up to get early API access to the managed AI service.
 
-You can also contact [my email](https://github.com/vercel/next.js/) for any questions, feedback, or help getting started!
+You can also contact [my email](cdreetz@gmail.com) for any questions, feedback, or help getting started!
 
 
