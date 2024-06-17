@@ -72,11 +72,11 @@ export default function Wireframe() {
   };
 
   const handleUpload = async () => {
-    //const { data: { user } } = await supabase.auth.getUser();
-    //if (!user) {
-    //  alert('Please sign up to upload files.');
-    //  return; // Ensure function exits if there's no user
-    //}
+    const { data: { user } } = await supabase.auth.getUser();
+    if (!user) {
+      alert('Please sign up to upload files.');
+      return; // Ensure function exits if there's no user
+    }
     if (!file) {
       alert('Please select a file first!');
       return; // Ensure function exits if no file is selected

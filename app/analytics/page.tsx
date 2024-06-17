@@ -7,7 +7,7 @@ import { Separator } from "@/components/ui/separator";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { transcribeFile, fetchExampleData, processAudio } from '@/app/analytics/action';
+import { processAudio } from '@/app/analytics/action';
 
 interface TranscriptionData {
   summary: string;

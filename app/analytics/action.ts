@@ -12,7 +12,7 @@ export async function checkEndpoint() {
   }
 }
 
-export async function processAudio(formData: FormData, options: {
+export async function processAudio(formData: FormData, options?: {
   align: boolean,
   diarize: boolean,
   chat_transcription: boolean,
