@@ -1,5 +1,11 @@
 ## Dial Structure AI
 
+- [DialStructure Web App](https://github.com/cdreetz/dialstructureai)
+- [DialStructure Inference Server](https://github.com/cdreetz/dialstructureai_api)
+- [DialStructure Public Version](https://www.dialstructureai.com/)
+
+
+### About 
 This is the complete web application for DialStructureAI, an open source project for processing audio files, in particular call center style audio.  With everything built in you can easily get annotated transcriptions, sentiment analysis, keyword extraction, and summarization results on all of your audio data.
 
 If you would like to deploy the interface locally, you can start by copying this repo and running a development server:
